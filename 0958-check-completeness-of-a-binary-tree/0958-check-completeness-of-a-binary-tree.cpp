@@ -12,24 +12,23 @@
  */
 class Solution {
 public:
-    bool isCompleteTree(TreeNode* root) {
+    int countnode(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        return countnode(root->left) + countnode(root->right) + 1;
+    }
+    bool helper(TreeNode* root, int index, int& nodecount) {
         if (root == NULL)
             return true;
-        queue<TreeNode*> pendingnodes;
-        pendingnodes.push(root);
-        bool past = false;
-        while (!pendingnodes.empty()) {
-            TreeNode* front = pendingnodes.front();
-            pendingnodes.pop();
-            if (front == NULL) {
-                past = true;
-            } else {
-                if (past == true)
-                    return false;
-                pendingnodes.push(front->left);
-                pendingnodes.push(front->right);
-            }
-        }
-        return true;
+        if (index > nodecount)
+            return false;
+        bool left = helper(root->left, 2 * index, nodecount);
+        bool right = helper(root->right, 2 * index + 1, nodecount);
+        return left && right;
+    }
+    bool isCompleteTree(TreeNode* root) {
+        int index = 1;
+        int nodecount = countnode(root);
+        return helper(root, index, nodecount);
     }
 };
