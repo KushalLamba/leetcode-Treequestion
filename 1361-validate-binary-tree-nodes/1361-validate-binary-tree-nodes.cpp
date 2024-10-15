@@ -1,3 +1,8 @@
+// someimportant pooints of Binary Tree
+//1 every node have only one parent
+//2 only one node have no parent
+//3from root we can visit all nodes means no disconnected nodes
+
 class Solution {
 public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild,
