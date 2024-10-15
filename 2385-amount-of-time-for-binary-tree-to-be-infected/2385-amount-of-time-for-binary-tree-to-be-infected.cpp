@@ -13,24 +13,23 @@
 class Solution {
 public:
     int maxdistance = 0;
-    pair<bool, int> helper(TreeNode* root, int start) {
+    int helper(TreeNode* root, int start) {
         if (root == NULL)
-            return {false, 0};
-        pair<bool, int> leftcheck = helper(root->left, start);
-        pair<bool, int> rightcheck = helper(root->right, start);
+            return 0;
+        int leftcheck = helper(root->left, start);
+        int rightcheck = helper(root->right, start);
         if (root->val == start) {
-            maxdistance = max(leftcheck.second, rightcheck.second);
-            return {true, 1};
-        } else if (leftcheck.first == true) {
-            maxdistance =
-                max(maxdistance, leftcheck.second + rightcheck.second);
-            return {true, leftcheck.second + 1};
-        } else if (rightcheck.first == true) {
-            maxdistance =
-                max(maxdistance, leftcheck.second + rightcheck.second );
-            return {true, rightcheck.second + 1};
-        } else {
-            return {false, max(leftcheck.second, rightcheck.second) + 1};
+            maxdistance = max(leftcheck, rightcheck);
+            return -1;
+        }
+        else if(leftcheck>=0 && rightcheck>=0)
+        {
+            return max(leftcheck,rightcheck)+1;
+        }
+        else
+        {
+            maxdistance=max(maxdistance,(abs(leftcheck)+abs(rightcheck)));
+            return min(leftcheck,rightcheck)-1;
         }
     }
     int amountOfTime(TreeNode* root, int start) {
